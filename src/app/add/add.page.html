@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Votre trajet</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+       
+  
+  <p>voici le trajet : {{ trajet }}</p>
+  <ion-modal trigger="open-modal" (willDismiss)="onWillDismiss($event)">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">Cancel</ion-button>
+          </ion-buttons>
+          <ion-title>Welcome</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+             
+         
+       
+        <ion-item>
+          <ion-label position="stacked">Entrez le nom de votre départ</ion-label>
+          <ion-input type="text" placeholder="départ" ></ion-input>
+        </ion-item>
+      </ion-content>
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Entrez le nom de votre destination</ion-label>
+          <ion-input type="text" placeholder="arrivée" ></ion-input>
+        </ion-item>
+      </ion-content>
+    </ng-template>
+     
+  </ion-modal>
+   <ion-button id="open-modal" expand="block">continuer</ion-button>
+</ion-content>
+<ion-footer>
+     <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="cancel()">retour</ion-button>
+          </ion-buttons>
+          <ion-title>Welcome</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+</ion-footer>
