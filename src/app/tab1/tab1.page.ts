@@ -6,6 +6,7 @@ import { Map, tileLayer, marker, icon } from 'leaflet';
 import { ModalController} from '@ionic/angular';  
 //import { Http } from '@angular/http';
 declare var ol: any;
+import { GPSProvider } from '../../../services/GPSProvider';
 var L = require('leaflet');
 var Routing = require('leaflet-routing-machine');
 import { map } from 'rxjs/operators';
@@ -19,7 +20,7 @@ import { AddPage } from '../add/add.page';
 export class Tab1Page implements OnInit {
 
   constructor(public http: HttpClient,
-              public plt: Platform,
+              public plt: Platform,public gps: GPSProvider,
               public router: Router,public modalCtrl: ModalController) {}
               mymap:any;
               trajet:any;
@@ -47,6 +48,8 @@ lat1:any;
 lng1:any;
 lat2:any;
 lng2:any;
+address1:any;
+address2:any;
 routing:any;
 trajetbutton:any;
 depart(){
@@ -55,8 +58,37 @@ depart(){
 arrivee(){
     this.lat2=1;
 }
-
+changedepart(){
+    var x = this.gps.getAddress1(document.querySelector<HTMLInputElement>('#address1')!.value);  
+    console.log(x);
+    this.addrouting(); 
+}
+changearrivee(){
+    var x = this.gps.getAddress2(document.querySelector<HTMLInputElement>('#address2')!.value); 
+    console.log(x);
+    this.addrouting();
+}
+  addrouting(){
+if (this.routing){
+      this.mymap.removeControl(this.routing); 
+  }
+   if (this.lat1 && this.lat2 && this.lng1 && this.lng2) {
+  this.routing = L.Routing.control({
+  waypoints: [
+    L.latLng(parseFloat(this.lat1), parseFloat(this.lng1)),
+    L.latLng(parseFloat(this.lat2), parseFloat(this.lng2))
+  ],
+    serviceUrl: 'http://localhost:5000/route/v1'
+}).addTo(this.mymap);
+  }
+  }
   ngOnInit(){
+      this.gps.address1$.subscribe((mydata:any) =>{
+          this.address1=mydata;
+      });
+           this.gps.address2$.subscribe((mydata:any) =>{
+          this.address2=mydata;
+      });
 	   this.mymap = new Map('map').setView([5.16,-52.65], 23);
 
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -69,23 +101,8 @@ arrivee(){
   if (this.lat2) {
       this.lat2=args.latlng.lat;
   this.lng2=args.latlng.lng;
-  if (this.routing){
-      this.mymap.removeControl(this.routing); 
-  }
-  this.routing = L.Routing.control({
-  waypoints: [
-    L.latLng(parseFloat(this.lat1), parseFloat(this.lng1)),
-    L.latLng(parseFloat(this.lat2), parseFloat(this.lng2))
-  ],
-    serviceUrl: 'http://localhost:5000/route/v1'
-}).addTo(this.mymap);
-this.routing2 = L.Routing.control({
-  waypoints: [
-    L.latLng(parseFloat(this.lat1), parseFloat(this.lng1)),
-    L.latLng(parseFloat(this.lat2), parseFloat(this.lng2))
-  ],
-    serviceUrl: 'http://localhost:5000/route/v1'
-});
+  this.addrouting();
+
 console.log(this.routing2,<HTMLElement>this.routing._container.attributes);
 this.trajetbutton=true;
 console.log(this.mapelement._element.nativeElement.outerText)
