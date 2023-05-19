@@ -15,6 +15,8 @@ export class AddPage implements OnInit {
         bar: any;
         lat1:any;
         lat2:any;
+        address1:any;
+        address2:any;
         mainForm: any;
         Data: any[] = [];
         lon1:any;
@@ -29,11 +31,11 @@ export class AddPage implements OnInit {
     }
   });
   this.mainForm = this.formBuilder.group({
-    lng1: [''],
+    lng1: [this.lon1],
     lat2: [''],
     lng2: [''],
-    address1: [''],
-     address2: [''],
+    address1: [this.address1],
+     address2: [this.address2],
     lat1: ['']
   })
   }

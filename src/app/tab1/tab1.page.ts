@@ -37,6 +37,8 @@ export class Tab1Page implements OnInit {
         bar: 'world',
         lat1:this.lat1,
         lat2:this.lat2,
+        address1:this.address1,
+        address2:this.address2,
         lon1:this.lng1,
         lon2:this.lng2,
         trajet:this.trajet
@@ -88,12 +90,12 @@ if (this.routing){
 }).addTo(this.mymap);
   }
   }
-       mainForm = this.formBuilder.group({
+       mainForm:any;
+  ngOnInit(){
+  this.mainForm = this.formBuilder.group({
     address1: [''],
     address2: ['']
   })
-  ngOnInit(){
-  
       this.gps.address1$.subscribe((mydata:any) =>{
           this.lat1=mydata.lat;
           this.lng1=mydata.lon;
@@ -104,18 +106,18 @@ if (this.routing){
       });
         this.gps.getaddress1$.subscribe((mydata:any) =>{
             this.address1 = mydata.displayName;
-          document.querySelector<HTMLInputElement>('#address1')!.value = this.address1;
-            this.mainForm = this.formBuilder.group({
-    address1: [this.address1],
-    address2: [this.address2]
+          //document.querySelector<HTMLInputElement>('#address1')!.value = this.address1;
+            this.mainForm.setValue({
+    address1: (this.address1||''),
+    address2: (this.address2||'')
   })
       });
            this.gps.getaddress2$.subscribe((mydata:any) =>{
 this.address2 = mydata.displayName;
-          document.querySelector<HTMLInputElement>('#address2')!.value = this.address2;
-            this.mainForm = this.formBuilder.group({
-    address1: [this.address1],
-    address2: [this.address2]
+          //document.querySelector<HTMLInputElement>('#address2')!.value = this.address2;
+      this.mainForm.setValue({
+    address1: (this.address1||''),
+    address2: (this.address2||'')
   })      });
 	   this.mymap = new Map('map').setView([5.16,-52.65], 23);
 
@@ -129,7 +131,8 @@ this.address2 = mydata.displayName;
   if (this.lat2) {
       this.lat2=args.latlng.lat;
   this.lng2=args.latlng.lng;
-  this.gps.getAddress2reverse(this.lat2, this.lng2);
+  
+  var xx =this.gps.getAddress2reverse(this.lat2, this.lng2);
   this.addrouting();
 
 console.log(this.routing2,<HTMLElement>this.routing._container.attributes);
@@ -139,9 +142,10 @@ console.log(this.mapelement._element.nativeElement.outerText)
   if (this.routing){
       this.mymap.removeControl(this.routing); 
   }
+
       this.lat1=args.latlng.lat;
   this.lng1=args.latlng.lng;
-  this.gps.getAddress1reverse(this.lat1, this.lng1);  
+      var x = this.gps.getAddress1reverse(this.lat1, this.lng1);
   }
   
 });

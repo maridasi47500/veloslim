@@ -78,7 +78,7 @@ export class DbService {
   // Add
   addTrajet(artist_name:any, trajet_name:any) {
     let data = [artist_name, trajet_name];
-    return this.storage.executeSql('INSERT INTO trajettable (artist_name, trajet_name) VALUES (?, ?)', data)
+    return this.storage.executeSql('INSERT INTO trajets (address1, address2) VALUES (?, ?)', data)
     .then((res:any) => {
       this.getTrajets();
     });
@@ -86,7 +86,7 @@ export class DbService {
  
   // Get single object
   getTrajet(id:any): Promise<Trajet> {
-    return this.storage.executeSql('SELECT * FROM trajettable WHERE id = ?', [id]).then((res:any) => { 
+    return this.storage.executeSql('SELECT * FROM trajets WHERE id = ?', [id]).then((res:any) => { 
       return {
         id: res.rows.item(0).id,
         artist_name: res.rows.item(0).artist_name,  
@@ -97,14 +97,14 @@ export class DbService {
   // Update
   updateTrajet(id:any, trajet: Trajet) {
     let data = [trajet.address1, trajet.address2];
-    return this.storage.executeSql(`UPDATE trajettable SET artist_name = ?, trajet_name = ? WHERE id = ${id}`, data)
+    return this.storage.executeSql(`UPDATE trajets SET address1 = ?, address2 = ? WHERE id = ${id}`, data)
     .then((data:any) => {
       this.getTrajets();
     })
   }
   // Delete
   deleteTrajet(id:any) {
-    return this.storage.executeSql('DELETE FROM trajettable WHERE id = ?', [id])
+    return this.storage.executeSql('DELETE FROM trajets WHERE id = ?', [id])
     .then((_:any) => {
       this.getTrajets();
     });

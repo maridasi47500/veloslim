@@ -30,11 +30,11 @@ export class GPSProvider {
   }
      getAddress1reverse(lat: any,lon:any) {
         const observer = async() => {
-    var x = await this.http.get('https://nominatim.openstreetmap.org/reverse?lat=<value1>&lon=<value2>'.replace("<value1>",lat).replace("<value2>",lon)).subscribe(data => {
-    var res=JSON.parse(JSON.stringify(data))[0];
-        console.log((JSON.stringify(data)),"data1");
-        console.log(res.lat,"data1");
-            console.log(Object.values(data),"data1");
+    var x = await this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat=<value1>&lon=<value2>'.replace("<value1>",String(lat)).replace("<value2>",String(lon))).subscribe(data => {
+    var res=JSON.parse(JSON.stringify(data));
+        console.log((JSON.stringify(data)),"data1 reverse geo");
+        console.log(res.lat,"data1reverse geo");
+            console.log(Object.values(data),"data1reverse geo");
             this.getaddress1.next(res);
     });
         }
@@ -43,11 +43,12 @@ export class GPSProvider {
   }
     getAddress2reverse(lat: any,lon:any) {
         const observer = async() => {
-    var x = await this.http.get('https://nominatim.openstreetmap.org/reverse?lat=<value1>&lon=<value2>'.replace("<value1>",lat).replace("<value2>",lon)).subscribe(data => {
-    var res=JSON.parse(JSON.stringify(data))[0];
-        console.log((JSON.stringify(data)),"data1");
-        console.log(res.lat,"data1");
-            console.log(Object.values(data),"data1");
+    var x = await this.http.get('https://nominatim.openstreetmap.org/reverse?format=json&lat=<value1>&lon=<value2>'.replace("<value1>",String(lat).replace("<value2>",String(lon)))).subscribe(data => {
+
+    var res=JSON.parse(JSON.stringify(data));
+        console.log((JSON.stringify(data)),"data1reverse geo");
+        console.log(res.lat,"data2");
+            console.log(Object.values(data),"data2reverse geo");
             this.getaddress2.next(res);
     });
         }
