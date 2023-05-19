@@ -4,8 +4,8 @@ id INTEGER PRIMARY KEY AUTOINCREMENT,
     lng1 TEXT, 
     lat2 TEXT, 
     lng2 TEXT, 
-    depart TEXT,
-    arrivee TEXT,
+    address1 TEXT,
+    address2 TEXT,
     user_id,
     trajet TEXT
 )

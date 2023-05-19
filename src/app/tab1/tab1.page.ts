@@ -4,6 +4,8 @@ import { Platform } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Map, tileLayer, marker, icon } from 'leaflet';
 import { ModalController} from '@ionic/angular';  
+import { FormGroup, FormBuilder } from "@angular/forms";
+
 //import { Http } from '@angular/http';
 declare var ol: any;
 import { GPSProvider } from '../../../services/GPSProvider';
@@ -21,7 +23,10 @@ export class Tab1Page implements OnInit {
 
   constructor(public http: HttpClient,
               public plt: Platform,public gps: GPSProvider,
-              public router: Router,public modalCtrl: ModalController) {}
+              public router: Router,public modalCtrl: ModalController,public formBuilder: FormBuilder) {}
+                     
+        Data: any[] = [];
+
               mymap:any;
               trajet:any;
               async showModal() {  
@@ -73,6 +78,7 @@ if (this.routing){
       this.mymap.removeControl(this.routing); 
   }
    if (this.lat1 && this.lat2 && this.lng1 && this.lng2) {
+       this.trajetbutton=true;
   this.routing = L.Routing.control({
   waypoints: [
     L.latLng(parseFloat(this.lat1), parseFloat(this.lng1)),
@@ -82,13 +88,35 @@ if (this.routing){
 }).addTo(this.mymap);
   }
   }
+       mainForm = this.formBuilder.group({
+    address1: [''],
+    address2: ['']
+  })
   ngOnInit(){
+  
       this.gps.address1$.subscribe((mydata:any) =>{
-          this.address1=mydata;
+          this.lat1=mydata.lat;
+          this.lng1=mydata.lon;
       });
            this.gps.address2$.subscribe((mydata:any) =>{
-          this.address2=mydata;
+          this.lat2=mydata.lat;
+          this.lng2=mydata.lon;
       });
+        this.gps.getaddress1$.subscribe((mydata:any) =>{
+            this.address1 = mydata.displayName;
+          document.querySelector<HTMLInputElement>('#address1')!.value = this.address1;
+            this.mainForm = this.formBuilder.group({
+    address1: [this.address1],
+    address2: [this.address2]
+  })
+      });
+           this.gps.getaddress2$.subscribe((mydata:any) =>{
+this.address2 = mydata.displayName;
+          document.querySelector<HTMLInputElement>('#address2')!.value = this.address2;
+            this.mainForm = this.formBuilder.group({
+    address1: [this.address1],
+    address2: [this.address2]
+  })      });
 	   this.mymap = new Map('map').setView([5.16,-52.65], 23);
 
     tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -101,6 +129,7 @@ if (this.routing){
   if (this.lat2) {
       this.lat2=args.latlng.lat;
   this.lng2=args.latlng.lng;
+  this.gps.getAddress2reverse(this.lat2, this.lng2);
   this.addrouting();
 
 console.log(this.routing2,<HTMLElement>this.routing._container.attributes);
@@ -112,6 +141,7 @@ console.log(this.mapelement._element.nativeElement.outerText)
   }
       this.lat1=args.latlng.lat;
   this.lng1=args.latlng.lng;
+  this.gps.getAddress1reverse(this.lat1, this.lng1);  
   }
   
 });

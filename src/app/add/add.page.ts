@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController} from '@ionic/angular';  
+import {DbService} from '../services/db.service';
+import { FormGroup, FormBuilder } from "@angular/forms";
+import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-add',
   templateUrl: './add.page.html',
@@ -7,16 +10,45 @@ import { ModalController} from '@ionic/angular';
 })
 export class AddPage implements OnInit {
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(private toast: ToastController,private modalCtrl: ModalController,private db:DbService,public formBuilder: FormBuilder) { }
        foo: any;
         bar: any;
         lat1:any;
         lat2:any;
+        mainForm: any;
+        Data: any[] = [];
         lon1:any;
         lon2:any;
         trajet:any;
   ngOnInit() {
+        this.db.dbState().subscribe((res) => {
+    if(res){
+      this.db.fetchTrajets().subscribe(item => {
+        this.Data = item
+      })
+    }
+  });
+  this.mainForm = this.formBuilder.group({
+    lng1: [''],
+    lat2: [''],
+    lng2: [''],
+    address1: [''],
+     address2: [''],
+    lat1: ['']
+  })
   }
+  storeData() {
+  
+}
+deleteTrajet(id:any){
+  this.db.deleteTrajet(id).then(async(res:any) => {
+    let toast = await this.toast.create({
+      message: 'Song deleted',
+      duration: 2500
+    });
+    toast.present();      
+  })
+}
    confirm() {
     this.modalCtrl.dismiss("", 'confirm');
    }

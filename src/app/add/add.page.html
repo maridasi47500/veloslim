@@ -20,21 +20,27 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
+            <div [formGroup]="mainForm" (ngSubmit)="storeData()">
+                <ion-input aria-label="lat1" type="hidden" placeholder="départ" formControlName="lat1"></ion-input>
+                <ion-input aria-label="lng1" type="hidden" placeholder="départ" formControlName="lng1"></ion-input>
+                <ion-input aria-label="lat2" type="hidden" placeholder="départ" formControlName="lat2"></ion-input>
+                <ion-input aria-label="lng2" type="hidden" placeholder="départ" formControlName="lng2"></ion-input>
       <ion-content class="ion-padding">
              
          
        
         <ion-item>
           <ion-label position="stacked">Entrez le nom de votre départ</ion-label>
-          <ion-input type="text" placeholder="départ" ></ion-input>
+          <ion-input aria-label="address1"  type="text" placeholder="départ" formControlName="address1"></ion-input>
         </ion-item>
       </ion-content>
       <ion-content class="ion-padding">
         <ion-item>
           <ion-label position="stacked">Entrez le nom de votre destination</ion-label>
-          <ion-input type="text" placeholder="arrivée" ></ion-input>
+            <ion-input aria-label="address2" type="text" placeholder="arrivée" formControlName="address2"></ion-input>
         </ion-item>
       </ion-content>
+            </div>
     </ng-template>
      
   </ion-modal>

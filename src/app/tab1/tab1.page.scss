@@ -3,5 +3,12 @@
     border:1px solid black;
     width:100%;
     z-index:1;
-    top:200px;
+    top:350px;
+}
+tr > * {
+    float:left;
+    
+}
+tr {
+    width:100%;
 }
