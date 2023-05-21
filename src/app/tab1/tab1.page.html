@@ -22,9 +22,9 @@ texte
     </ion-toolbar>
   </ion-header>
     <table><tr><td>{{lat1}}</td><td>{{lat2}}</td></tr><tr><td>{{lng1}}</td><td>{{lng2}}</td></tr><tr *ngIf="!lat2">sélectionnez votre départ<button (click)="arrivee()">arrivee</button></tr><tr *ngIf="lat2">sélectionnez votre arrivée <button (click)="depart()">depart</button></tr><tr>  <button *ngIf="trajetbutton" (click)="savetrajet()">garder le trajet</button></tr>
-   <div [formGroup]="mainForm"> <tr>
-        <ion-input aria-label="depart" type="text" formControlName="address1" placeholder="départ" ></ion-input><button (click)="changedepart();">modifier le départ</button>
-        <!-- comment --></tr><tr><ion-input aria-label="arrivee" type="text" formControlName="address2" placeholder="arrivée" ></ion-input><button (click)="changearrivee();">modifier l'arrivée</button><input type="submit"/></tr></div>
+   <div #myform [formGroup]="mainForm"> <tr>
+        <ion-input aria-label="depart" dynamicChildDepart #departchamp type="text" formControlName="address1" placeholder="départ" ></ion-input><button (click)="changedepart();">modifier le départ</button>
+        <!-- comment --></tr><tr><ion-input dynamicChildArrivee #arriveechamp aria-label="arrivee" type="text" formControlName="address2" placeholder="arrivée" ></ion-input><button (click)="changearrivee();">modifier l'arrivée</button><input type="submit"/></tr></div>
     
     </table>
 

@@ -8,7 +8,8 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { AddPage } from '../add/add.page';  
 import { GPSProvider } from '../../../services/GPSProvider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import {DynamicChildDepartLoaderDirective} from './loaddepart.directive';
+import {DynamicChildArriveeLoaderDirective} from './loadarrivee.directive';
 @NgModule({
   imports: [
     IonicModule,
@@ -19,6 +20,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     Tab1PageRoutingModule
   ],
   providers: [GPSProvider],
-  declarations: [Tab1Page]
+  declarations: [Tab1Page,DynamicChildDepartLoaderDirective,DynamicChildArriveeLoaderDirective]
 })
 export class Tab1PageModule {}
