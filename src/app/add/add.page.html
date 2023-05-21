@@ -25,9 +25,10 @@
              
          <div [formGroup]="mainForm">
                 <ion-input aria-label="lat1" type="hidden" placeholder="départ" formControlName="lat1"></ion-input>
-                <ion-input aria-label="lng1" type="hidden" placeholder="départ" formControlName="lng1"></ion-input>
+                <ion-input aria-label="lng1" type="hidden" placeholder="départ" formControlName="lon1"></ion-input>
                 <ion-input aria-label="lat2" type="hidden" placeholder="départ" formControlName="lat2"></ion-input>
-                <ion-input aria-label="lng2" type="hidden" placeholder="départ" formControlName="lng2"></ion-input>
+                <ion-input aria-label="lng2" type="hidden" placeholder="départ" formControlName="lon2"></ion-input>
+                <ion-input aria-label="trajet" type="hidden" placeholder="départ" formControlName="trajet"></ion-input>
        
         <ion-item>
           <ion-label position="stacked">Entrez le nom de votre départ</ion-label>
@@ -37,6 +38,9 @@
         <ion-item>
           <ion-label position="stacked">Entrez le nom de votre destination</ion-label>
             <ion-input aria-label="address2" type="text" placeholder="arrivée" formControlName="address2"></ion-input>
+        </ion-item>
+                        <ion-item>
+                            <ion-button (click)="storedata()">garder ce trajet</ion-button>
         </ion-item>
           </div>
       </ion-content>

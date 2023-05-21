@@ -31,16 +31,17 @@ export class AddPage implements OnInit {
     }
   });
   this.mainForm = this.formBuilder.group({
-    lng1: [this.lon1],
-    lat2: [''],
-    lng2: [''],
+    lon1: [this.lon1],
+    lat2: [this.lat2],
+    lon2: [this.lon2],
     address1: [this.address1],
+    trajet: [this.trajet],
      address2: [this.address2],
-    lat1: ['']
+    lat1: [this.lat1]
   })
   }
-  storeData() {
-  
+  storedata() {
+  this.db.addTrajet(this.mainForm.value);
 }
 deleteTrajet(id:any){
   this.db.deleteTrajet(id).then(async(res:any) => {

@@ -76,9 +76,9 @@ export class DbService {
     });
   }
   // Add
-  addTrajet(artist_name:any, trajet_name:any) {
-    let data = [artist_name, trajet_name];
-    return this.storage.executeSql('INSERT INTO trajets (address1, address2) VALUES (?, ?)', data)
+  addTrajet(mydata:any) {
+    let data = [mydata.address1, mydata.address2,mydata.lat1,mydata.lon1,mydata.lat2,mydata.lon2,mydata.trajet];
+    return this.storage.executeSql('INSERT INTO trajets (address1, address2,lat1,lng1,lat2,lng2,trajet) VALUES (?, ?,?,?,?,?,?)', data)
     .then((res:any) => {
       this.getTrajets();
     });
