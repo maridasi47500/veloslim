@@ -18,19 +18,24 @@ var Routing = require('leaflet-routing-machine');
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { AddPage } from '../add/add.page';  
-
+import {PageNumberService} from '../../../services/PageNumberService';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-tab2',
   templateUrl: 'tab2.page.html',
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-
+data:any;
   constructor(public http: HttpClient,
               public plt: Platform,public gps: GPSProvider,
+              private route: ActivatedRoute, 
               public router: Router,public modalCtrl: ModalController,public formBuilder: FormBuilder,private db: DbService) {}
   trajets:any;
 ngOnInit(){
     this.trajets = this.db.getTrajets();
+        if (this.route.snapshot.data['special']) {
+      this.data = this.route.snapshot.data['special'];
+    }
 }
 }

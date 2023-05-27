@@ -3,6 +3,7 @@ import { ModalController} from '@ionic/angular';
 import {DbService} from '../services/db.service';
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { ToastController } from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-add',
   templateUrl: './add.page.html',
@@ -10,7 +11,7 @@ import { ToastController } from '@ionic/angular';
 })
 export class AddPage implements OnInit {
 
-  constructor(private toast: ToastController,private modalCtrl: ModalController,private db:DbService,public formBuilder: FormBuilder) { }
+  constructor(private router: Router,private toast: ToastController,private modalCtrl: ModalController,private db:DbService,public formBuilder: FormBuilder) { }
        foo: any;
         bar: any;
         lat1:any;
@@ -42,6 +43,7 @@ export class AddPage implements OnInit {
   }
   storedata() {
   this.db.addTrajet(this.mainForm.value);
+  this.router.navigateByUrl("/details/1");
 }
 deleteTrajet(id:any){
   this.db.deleteTrajet(id).then(async(res:any) => {
