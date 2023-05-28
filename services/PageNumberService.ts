@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
- 
+ import { CacheService } from "ionic-cache";
+import { IonicStorageModule } from '@ionic/storage-angular';
 @Injectable({
   providedIn: 'root'
 })
 export class PageNumberService {
+
  
   private pagenb:number = 1;
- 
-  constructor() { }
+  myvalue:any;
+  constructor(cache: CacheService) { 
+
+  }
  
   nextpage() {
     if (this.pagenb == 1){
@@ -17,6 +21,14 @@ export class PageNumberService {
     }
     
   }
+  loadList(pageNumber:any) {
+    let url = "http://google.com/?page=" + pageNumber;
+    let cacheKey = url;
+    let groupKey = "googleSearchPages"
+
+    
+    
+}
   previouspage() {
     if(this.pagenb == 10) {
         this.pagenb=1;

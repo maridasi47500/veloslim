@@ -47,15 +47,21 @@ export class DbService {
       ).subscribe(data => {
         this.sqlPorter.importSqlToDb(this.storage, data)
           .then(_ => {
-            this.getTrajets();
+            this.getTrajets(1);
             this.isDbReady.next(true);
           })
           .catch(error => console.error(error));
       });
     }
   // Get list
-  getTrajets(){
-    return this.storage.executeSql('SELECT * FROM trajets', []).then((res: any) => {
+  getTrajets(offset:any){
+      var limit;
+      if (offset === 1) {
+          limit = 9;
+      }else{
+          limit = 10;
+      }
+    return this.storage.executeSql('SELECT * FROM trajets limit ? offset ?', [limit, offset]).then((res: any) => {
       let items: Trajet[] = [];
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) { 
@@ -80,7 +86,7 @@ export class DbService {
     let data = [mydata.address1, mydata.address2,mydata.lat1,mydata.lon1,mydata.lat2,mydata.lon2,mydata.trajet];
     return this.storage.executeSql('INSERT INTO trajets (address1, address2,lat1,lng1,lat2,lng2,trajet) VALUES (?, ?,?,?,?,?,?)', data)
     .then((res:any) => {
-      this.getTrajets();
+      this.getTrajets(1);
     });
   }
  
@@ -99,14 +105,14 @@ export class DbService {
     let data = [trajet.address1, trajet.address2];
     return this.storage.executeSql(`UPDATE trajets SET address1 = ?, address2 = ? WHERE id = ${id}`, data)
     .then((data:any) => {
-      this.getTrajets();
+      this.getTrajets(1);
     })
   }
   // Delete
   deleteTrajet(id:any) {
     return this.storage.executeSql('DELETE FROM trajets WHERE id = ?', [id])
     .then((_:any) => {
-      this.getTrajets();
+      this.getTrajets(1);
     });
   }
 }

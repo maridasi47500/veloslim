@@ -8,7 +8,18 @@
 
 <ion-content [fullscreen]="true">
     <div id="map" class="map"></div>
-    <div id="list"></div>
+    <div id="list">
+        <div *ngFor="let trajet of trajets">
+            <div>{{trajet.address1}} {{trajet.address2}} {{trajet.trajet}}</div>
+        </div>
+        <div *ngIf="pagenb == 1">
+            <button>suivant</button>
+        </div>   
+        <div *ngIf="pagenb > 1">
+            <button (click)="precedent()">précédent</button>
+            <button (click)="suivant">suivant</button>
+        </div>   
+    </div>
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">tous les trajets</ion-title>
