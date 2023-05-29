@@ -102,6 +102,10 @@ if (this.routing){
   }
        mainForm:any;
         ngOnInit(){
+              this.mainForm = this.formBuilder.group({
+    address1: [''],
+    address2: ['']
+  })
            console.log("ok after init laoded")
             this.gps.getaddress1$.subscribe((mydata:any) =>{
                 console.log("funcloads12221")
@@ -124,10 +128,7 @@ this.address2 = mydata.display_name;
   })      });
        
  
-  this.mainForm = this.formBuilder.group({
-    address1: [''],
-    address2: ['']
-  })
+
       this.gps.address1$.subscribe((mydata:any) =>{
           this.lat1=mydata.lat;
           this.lng1=mydata.lon;

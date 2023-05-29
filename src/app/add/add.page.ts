@@ -42,8 +42,9 @@ export class AddPage implements OnInit {
   })
   }
   storedata() {
+      console.log(this.mainForm.value, "my VALUEUEUEUE");
   this.db.addTrajet(this.mainForm.value);
-  this.router.navigateByUrl("/details/1");
+  this.router.navigateByUrl("/tabs/tab2");
 }
 deleteTrajet(id:any){
   this.db.deleteTrajet(id).then(async(res:any) => {

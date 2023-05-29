@@ -6,12 +6,12 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="mytrajet">
     <div id="map" class="map"></div>
     <div id="list">
-        <div *ngFor="let trajet of trajets">
+        <ion-card *ngFor="let trajet of trajets$ | async" (click)="addrouting(trajet.lat1,trajet.lng1,trajet.lat2,trajet.lng2)">
             <div>{{trajet.address1}} {{trajet.address2}} {{trajet.trajet}}</div>
-        </div>
+        </ion-card>
         <div *ngIf="pagenb == 1">
             <button>suivant</button>
         </div>   

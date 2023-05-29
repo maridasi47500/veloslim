@@ -1,7 +1,13 @@
 #map {
-float:left;width:300px;
-
+float:right;width:600px;
+right:0;
 }
 #list {
     float:left;width:300px;
+        height:200px;
+    overflow-y:scroll;
 }
+.mytrajet {
+    top:100px;
+}
+

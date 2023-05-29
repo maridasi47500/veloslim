@@ -22,15 +22,20 @@ export class DbService {
     private sqlPorter: SQLitePorter,
   ) {
     this.platform.ready().then(() => {
+this.createDatabaseObject()
+      
+    });
+  }
+  createDatabaseObject(): void {
       this.sqlite.create({
-        name: 'positronx_db.db',
+        name: 'my_otherdb_name.db',
         location: 'default'
-      })
-      .then((db: SQLiteObject) => {
-          this.storage = db;
+      }).then((db: SQLiteObject) => {
+          console.log(db)
+          
+                    this.storage = db;
           this.getFakeData();
       });
-    });
   }
   dbState() {
     return this.isDbReady.asObservable();
@@ -41,53 +46,74 @@ export class DbService {
   }
     // Render fake data
     getFakeData() {
-      this.httpClient.get(
+         this.httpClient.get(
         'assets/dump.sql', 
         {responseType: 'text'}
       ).subscribe(data => {
+          //alert("this data"+data)
         this.sqlPorter.importSqlToDb(this.storage, data)
           .then(_ => {
-            this.getTrajets(1);
+this.storage['database_filled'] = true;
+this.getTrajets(1);
             this.isDbReady.next(true);
+            
           })
           .catch(error => console.error(error));
       });
     }
   // Get list
   getTrajets(offset:any){
-      var limit;
+      var limit:any;
       if (offset === 1) {
           limit = 9;
       }else{
           limit = 10;
       }
-    return this.storage.executeSql('SELECT * FROM trajets limit ? offset ?', [limit, offset]).then((res: any) => {
+      const observer = async() => {
+         
+          
+          var x = await (this.storage.executeSql('SELECT * FROM trajets limit ? offset ?', [limit, offset]).then((res: any) => {
       let items: Trajet[] = [];
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++) { 
           items.push({ 
             id: res.rows.item(i).id,
-            lat1: res.rows.item(i).artist_name,  
-            lng1: res.rows.item(i).artist_name,  
-            lat2: res.rows.item(i).artist_name,  
-            lng2: res.rows.item(i).artist_name,  
-            address1: res.rows.item(i).artist_name,  
-            trajet: res.rows.item(i).artist_name,  
-            user_id: res.rows.item(i).artist_name,  
-            address2: res.rows.item(i).trajet_name
+            lat1: res.rows.item(i).lat1,  
+            lng1: res.rows.item(i).lng1,  
+            lat2: res.rows.item(i).lat2,  
+            lng2: res.rows.item(i).lng2,  
+            address1: res.rows.item(i).address1,  
+            trajet: res.rows.item(i).trajet,  
+            user_id: res.rows.item(i).user_id,  
+            address2: res.rows.item(i).address2
            });
         }
       }
       this.trajetsList.next(items);
-    });
+    }));
+      }
+      observer();
+      return this.trajetsList$;
+      
   }
   // Add
   addTrajet(mydata:any) {
     let data = [mydata.address1, mydata.address2,mydata.lat1,mydata.lon1,mydata.lat2,mydata.lon2,mydata.trajet];
-    return this.storage.executeSql('INSERT INTO trajets (address1, address2,lat1,lng1,lat2,lng2,trajet) VALUES (?, ?,?,?,?,?,?)', data)
+    console.log(data, "DAATATATA");
+    const observer = async() => {
+         
+          
+          var x = await (this.storage.executeSql('INSERT INTO trajets (address1, address2,lat1,lng1,lat2,lng2,trajet) VALUES (?, ?,?,?,?,?,?)', data)
     .then((res:any) => {
+        console.log(res.rows.item(0), "OKOKOK add to db")
+      
       this.getTrajets(1);
-    });
+    }));
+    
+    };
+    observer();
+    return this.trajetsList$;
+
   }
  
   // Get single object
